@@ -1,0 +1,8 @@
+apiVersion: oauth.openshift.io/v1
+kind: OAuthClient
+metadata:
+  name: backstage-client
+secret: your-very-secret-value
+redirectURIs:
+  - "https://<YOUR-BACKSTAGE-URL>/api/auth/openshift/handler/frame"
+grantMethod: prompt

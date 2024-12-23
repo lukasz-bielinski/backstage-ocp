@@ -1,0 +1,42 @@
+auth:
+  # For example, set which environment we’re in. This is optional.
+  environment: production
+
+  providers:
+    # You can call it 'openshift', 'oauth2', or 'openid'—the key name is up to you
+    openshift:
+      development:
+        # The client ID from the OAuthClient you created
+        clientId: backstage-client
+        # The client secret from the OAuthClient
+        clientSecret:
+          $env: BACKSTAGE_CLIENT_SECRET
+        # This URL is the callback route in Backstage
+        callbackUrl: https://<YOUR-BACKSTAGE-URL>/api/auth/openshift/handler/frame
+
+        # These are the endpoints for OpenShift's OAuth server.
+        # Replace <OPENSHIFT-OAUTH-HOST> with your actual cluster's OAuth host,
+        # typically something like `oauth-openshift.apps.example.com`.
+        authorizationUrl: https://<OPENSHIFT-OAUTH-HOST>/oauth/authorize
+        tokenUrl: https://<OPENSHIFT-OAUTH-HOST>/oauth/token
+
+        # The scopes you want to request from OpenShift; minimal scope is often `user:full`.
+        # For fine-grained permissions, specify accordingly.
+        scope: user:full
+
+        # If you need to present basic auth headers to token endpoint, set this.
+        # includeBasicAuthHeader: true
+
+# In the same app-config.yaml
+# Telling the frontend about the new provider
+signIn:
+  # The default method for sign-in
+  resolver:
+    # Use the 'environment' signIn resolver, or another as appropriate
+    type: 'oauth2'
+  providers:
+    openshift:
+      # This name must match the providers.openshift block above
+      development:
+        # If needed, specify sign in options, custom icon, etc.
+        title: 'OpenShift Login'
