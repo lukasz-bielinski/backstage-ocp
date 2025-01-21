@@ -1,0 +1,14 @@
+apiVersion: network.openshift.io/v1
+kind: EgressNetworkPolicy
+metadata:
+  name: egress-policy-dev
+  namespace: ddd
+spec:
+  egress:
+    - type: Allow
+      to:
+        cidr: 1.1.1.1
+    - type: Allow
+      to:
+        cidr: 2.2.2.2
+
